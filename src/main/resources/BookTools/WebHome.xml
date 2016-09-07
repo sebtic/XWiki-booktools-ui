@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.2" reference="BookTools.WebHome" locale="">
+  <web>BookTools</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1467795004000</creationDate>
+  <parent>Main.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1473071395000</date>
+  <contentUpdateDate>1473071395000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity}}
+{{html wiki=true}}
+#set($docextras=[])
+The Book tools application allows to manager biliographic data on XWiki and book navigation.
+
+The current available actions are :
+
+#if( $services.security.authorization.hasAccess('view', 'BookTools.Data.Entries.WebHome'))
+* [[Search for an entry&gt;&gt;doc:BookTools.Data.Entries.WebHome]]
+#end
+#if( $services.security.authorization.hasAccess('view', 'BookTools.Data.Persons.WebHome'))
+* [[Search for a person&gt;&gt;doc:BookTools.Data.Persons.WebHome]]
+#end
+
+#if( $services.security.authorization.hasAccess('view', 'BookTools.Code.ImportBibTeX'))
+* [[Import from BibTex/BibLaTeX&gt;&gt;doc:BookTools.Code.ImportBibTeX]]
+#end
+
+#if( $services.security.authorization.hasAccess('view', 'BookTools.Code.CreatePerson'))
+* [[Create a person&gt;&gt;doc:BookTools.Code.CreatePerson]]
+#end
+#if( $services.security.authorization.hasAccess('view', 'BookTools.Code.MergePersons'))
+* [[Merge two persons&gt;&gt;doc:BookTools.Code.MergePersons]]
+#end
+
+#if( $services.security.authorization.hasAccess('view', 'BookTools.Code.CreateEntry'))
+* [[Create an entry&gt;&gt;doc:BookTools.Code.CreateEntry]]
+#end
+
+#if( $services.security.authorization.hasAccess('view', 'BookTools.Configuration.Configuration'))
+* [[View configuration&gt;&gt;doc:BookTools.Configuration.Configuration]]
+#end
+
+#if( $services.security.authorization.hasAccess('view', 'BookTools.Code.EntryTypes'))
+* [[View entry types&gt;&gt;doc:BookTools.Code.EntryTypes]]
+#end
+
+#if( $services.security.authorization.hasAccess('view', 'BookTools.Code.ListIndexedSpaces'))
+* [[List the indexed spaces&gt;&gt;doc:BookTools.Code.ListIndexedSpaces]]
+#end
+{{/html}}
+{{/velocity}}</content>
+</xwikidoc>

@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.2" reference="BookTools.Code.BookTOCMacro" locale="">
+  <web>BookTools.Code</web>
+  <name>BookTOCMacro</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1473191557000</creationDate>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1473257724000</date>
+  <contentUpdateDate>1473231535000</contentUpdateDate>
+  <version>1.1</version>
+  <title>BookTOCMacro</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <parent>BookTools.Code.WebHome</parent>
+  <content/>
+  <object>
+    <name>BookTools.Code.BookTOCMacro</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>cbd08ef2-976d-475b-9d2c-6ad5ef345e93</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>forbid</cache>
+    </property>
+    <property>
+      <code>require(['jquery', "$services.webjars.url('jquery-ui', 'jquery-ui.js')"], function ($) {
+
+  // load jquery-ui.css
+  function loadCss(url) {
+    var link = document.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = url;
+    document.getElementsByTagName("head")[0].appendChild(link);
+  }
+   
+  loadCss("$services.webjars.url('jquery-ui', 'jquery-ui.css')");
+});
+</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.BookTOCMacro</name>
+    <number>1</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>d92a9c60-ffee-41f9-81c4-81e5d642b4c6</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>forbid</cache>
+    </property>
+    <property>
+      <code>require(['jquery', "$services.webjars.url('jquery-ui', 'jquery-ui.js')" ], function ($) {
+  
+  #set($pageActions = $services.model.resolveDocument("BookTools.Code.PageActions"))
+  #set($pageActionsDoc = $xwiki.getDocument($pageActions))
+  #set($pageActionsUrl = $pageActionsDoc.getURL('view', 'xpage=plain&amp;outputSyntax=plain'))
+
+  
+  var leftArrow = '$services.icon.renderHTML("arrow_left")';
+  var rightArrow = '$services.icon.renderHTML("arrow_right")';
+  var upArrow = '$services.icon.renderHTML("arrow_up")';
+  var downArrow = '$services.icon.renderHTML("arrow_down")';
+  
+  function disableTOC() {
+    // disable click handlers
+    $('.booktools-toc').find("li .booktoc-actions span").off();
+    var content = $('.booktools-toc .xwikipanelcontents');
+    content.prepend('$services.localization.render("booktools.toc.pleasewait")')
+    content.children().hide()
+  }
+  
+  $('.booktools-toc').find("li .booktoc-actions").each(function (index,actions) {
+    var parent = $(actions).parent().parent();
+    var moveafter = $(parent).attr('data-moveafter');
+    var movebefore = $(parent).attr('data-movebefore');
+    var moveup = $(parent).attr('data-moveup');
+    var movedown = $(parent).attr('data-movedown');
+        
+    if (moveup == 'true') {
+      var widget = $(leftArrow);
+      $(widget).click(function (e) {
+        disableTOC()
+        var data = { 'action' : 'moveup', 'reference' : $(parent).attr('data-module') };
+        $.ajax({ url : "$pageActionsUrl", data : data}).done(function( data ) { location.reload(); });
+      });
+      $(actions).append(widget);
+    }
+    if (movebefore == 'true') {
+      var widget = $(upArrow);
+      $(widget).click(function (e) {
+        disableTOC()
+        var data = { 'action' : 'movebefore', 'reference' : $(parent).attr('data-module') };
+        $.ajax({ url : "$pageActionsUrl", data : data}).done(function( data ) { location.reload(); });
+      });
+      $(actions).append(widget);
+    }
+    
+    if (moveafter == 'true') {
+      var widget = $(downArrow);
+      $(widget).click(function (e) {
+        disableTOC()
+        var data = { 'action' : 'moveafter', 'reference' : $(parent).attr('data-module') };
+        $.ajax({ url : "$pageActionsUrl", data : data}).done(function( data ) { location.reload(); });
+      });
+      $(actions).append(widget);
+    }
+    
+    if (movedown == 'true') {
+      var widget = $(rightArrow);
+      $(widget).click(function (e) {
+        disableTOC()
+        var data = { 'action' : 'movedown', 'reference' : $(parent).attr('data-module') };
+        $.ajax({ url : "$pageActionsUrl", data : data}).done(function( data ) { location.reload(); });
+      });
+      $(actions).append(widget);
+    }
+    
+    
+    
+  }); // each
+    
+}); // requirejs
+</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.BookTOCMacro</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>c55b4108-626d-4437-8e06-abc94d6cc9ec</guid>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>6</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>3</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <contentType>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>contentType</name>
+        <number>1</number>
+        <prettyName>Content Type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>CSS|LESS</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </contentType>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>2</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>5</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>4</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>forbid</cache>
+    </property>
+    <property>
+      <code>.booktools-toc {
+}
+.booktoc-actions {
+  margin-left: 5px;
+}
+
+.booktoc-actions span {
+  margin-left: 5px;
+}</code>
+    </property>
+    <property>
+      <contentType>CSS</contentType>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.BookTOCMacro</name>
+    <number>0</number>
+    <className>XWiki.WikiMacroClass</className>
+    <guid>f9d0b217-d82e-4e85-b556-d20391cb5276</guid>
+    <class>
+      <name>XWiki.WikiMacroClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <code>
+        <disabled>0</disabled>
+        <editor/>
+        <name>code</name>
+        <number>9</number>
+        <prettyName>Macro code</prettyName>
+        <rows>20</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <contentDescription>
+        <disabled>0</disabled>
+        <editor/>
+        <name>contentDescription</name>
+        <number>8</number>
+        <prettyName>Content description (Not applicable for "No content" type)</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </contentDescription>
+      <contentType>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>contentType</name>
+        <number>7</number>
+        <prettyName>Macro content type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator>|</separator>
+        <separators>|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>Optional|Mandatory|No content</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </contentType>
+      <defaultCategory>
+        <disabled>0</disabled>
+        <name>defaultCategory</name>
+        <number>4</number>
+        <prettyName>Default category</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultCategory>
+      <description>
+        <disabled>0</disabled>
+        <editor/>
+        <name>description</name>
+        <number>3</number>
+        <prettyName>Macro description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <id>
+        <disabled>0</disabled>
+        <name>id</name>
+        <number>1</number>
+        <prettyName>Macro id</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </id>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>2</number>
+        <prettyName>Macro name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <supportsInlineMode>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>supportsInlineMode</name>
+        <number>5</number>
+        <prettyName>Supports inline mode</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </supportsInlineMode>
+      <visibility>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>visibility</name>
+        <number>6</number>
+        <prettyName>Macro visibility</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator>|</separator>
+        <separators>|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>Current User|Current Wiki|Global</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </visibility>
+    </class>
+    <property>
+      <code>{{velocity}}
+{{html wiki=true}}
+$xwiki.jsx.use("BookTools.Code.BookTOCMacro")
+$xwiki.ssx.use("BookTools.Code.BookTOCMacro")
+#set($numbered = $xcontext.macro.params.reference == "true")
+#set($reference = $xcontext.macro.params.reference)
+#if( $reference )
+  #set($reference = $services.model.resolveDocument($reference))
+#else
+  ## if empty, we default to the current document
+  #set($reference = $doc.documentReference)
+#end
+
+#set($book = $xcontext.macro.params.book)
+#set($root = $services.booktools.documentWalker.getNode($reference))
+#if($book == "true")
+  #set($root = $root.rootNode)
+#end
+
+#set($editMode = $root.canEdit())
+
+#macro(displayChildren $node)
+#if(!$node.children.empty)
+  #if($numbered)&lt;ol&gt;#else&lt;ul&gt;#end
+    #foreach($child in $node.children)
+        #set($movebefore = $editMode &amp;&amp; !$foreach.first &amp;&amp; $child.canEdit())
+        #set($moveafter = $editMode &amp;&amp; !$foreach.last &amp;&amp; $child.canEdit())
+        #set($movedown = $editMode &amp;&amp; !$foreach.first &amp;&amp; $child.canDelete())
+        #set($moveup = $editMode &amp;&amp; !$root.equals($child.parent) &amp;&amp; $child.canDelete())
+      &lt;li data-module="$escapetool.html($child.documentReference)" data-movebefore="$movebefore" data-moveafter="$moveafter" data-movedown="$movedown" data-moveup="$moveup"&gt;
+        &lt;div&gt;
+          [[$child.translatedTitle&gt;&gt;$child.documentReference]]&lt;span class="booktoc-actions"/&gt;
+        &lt;/div&gt;
+        #displayChildren($child)
+      &lt;/li&gt;
+    #end
+  #if($numbered)&lt;/ol&gt;#else&lt;/ul&gt;#end
+#end
+#end
+
+&lt;div class="panel booktools-toc"&gt;
+&lt;h1 class="xwikipaneltitle booktools-toc-title"&gt;$services.localization.render('booktools.toc.title')&lt;/h1&gt;
+&lt;div class="xwikipanelcontents"&gt;
+#displayChildren($root)
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+{{/html}}
+{{/velocity}}</code>
+    </property>
+    <property>
+      <contentDescription/>
+    </property>
+    <property>
+      <contentType>No content</contentType>
+    </property>
+    <property>
+      <defaultCategory/>
+    </property>
+    <property>
+      <description/>
+    </property>
+    <property>
+      <id>booktoc</id>
+    </property>
+    <property>
+      <name>booktoc</name>
+    </property>
+    <property>
+      <supportsInlineMode/>
+    </property>
+    <property>
+      <visibility>Current Wiki</visibility>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.BookTOCMacro</name>
+    <number>0</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>05aced0f-47f9-4500-aa93-e611ecd25c55</guid>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <editor/>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>The reference document. Will defaut to the current document if empty.</description>
+    </property>
+    <property>
+      <mandatory>0</mandatory>
+    </property>
+    <property>
+      <name>reference</name>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.BookTOCMacro</name>
+    <number>1</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>f3005351-1e03-4272-8426-5a31801dd4d9</guid>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <editor/>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>true if the complete book TOC is required</description>
+    </property>
+    <property>
+      <mandatory>0</mandatory>
+    </property>
+    <property>
+      <name>book</name>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.BookTOCMacro</name>
+    <number>2</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>06eb89d8-a59e-4d21-8717-19a8f6c4e53c</guid>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <editor/>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>If true the pages are numbered.</description>
+    </property>
+    <property>
+      <mandatory>0</mandatory>
+    </property>
+    <property>
+      <name>numbered</name>
+    </property>
+  </object>
+</xwikidoc>

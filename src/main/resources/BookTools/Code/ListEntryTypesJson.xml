@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc reference="BookTools.Code.ListEntryTypesJson" locale="">
+  <web>BookTools.Code</web>
+  <name>ListEntryTypesJson</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>BookTools.Code.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1468914339000</creationDate>
+  <date>1471863202000</date>
+  <contentUpdateDate>1471863202000</contentUpdateDate>
+  <version>1.1</version>
+  <title>ListEntryTypesJson</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity wiki="false"}}
+#set($query = $services.query.xwql("from doc.object(BookTools.Code.EntryTypeClass) as entryType where doc.name &lt;&gt; 'EntryTypeTemplate' order by doc.title"))
+#set($results = $query.execute())
+#set($array = [])
+#foreach ($item in $results)
+    #set($itemdoc = $xwiki.getDocument($item))
+    #set($xobject = $itemdoc.getObject('BookTools.Code.EntryTypeClass'))
+    #set($class = $xobject.xWikiClass)
+    #set($entryMap = {})
+    #foreach($prop in $class.properties)
+      #set($value = $xobject.getProperty($prop.name).value)
+      #if ($prop.name == "type")
+        #set($discard = $entryMap.put($prop.name, $value))
+      #else
+        #if($value &amp;&amp; $value == "1")
+          #set($discard = $entryMap.put($prop.name, true))
+        #end
+      #end
+    #end
+    #set($discard = $entryMap.put('title', $itemdoc.title))
+    #set($discard = $array.add($entryMap))
+#end
+$response.setContentType('application/json')
+$jsontool.serialize(${array})
+{{/velocity}}</content>
+</xwikidoc>

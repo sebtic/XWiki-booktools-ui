@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc reference="BookTools.Code.Translations" locale="">
+  <web>BookTools.Code</web>
+  <name>Translations</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>BookTools.Code.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1467638453000</creationDate>
+  <date>1472380259000</date>
+  <contentUpdateDate>1472380259000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <object>
+    <class>
+      <name>XWiki.TranslationDocumentClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <scope>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>scope</name>
+        <number>1</number>
+        <prettyName>Scope</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>GLOBAL|WIKI|USER|ON_DEMAND</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </scope>
+    </class>
+    <name>BookTools.Code.Translations</name>
+    <number>0</number>
+    <className>XWiki.TranslationDocumentClass</className>
+    <guid>8251db0a-0b0a-4821-8188-b4c6bb78d611</guid>
+    <property>
+      <scope>WIKI</scope>
+    </property>
+  </object>
+  <content>booktools.applicationsPanelEntryLabel=BookTools
+
+booktools.import.need=You need first to {0} log in {1} or {2} register {3}
+booktools.import.bibtex.title=Import from BibTeX/BibLaTeX
+booktools.import.bibtex.BibTeXHint=The BibTeX entry
+booktools.import.bibtex.submit=Import
+booktools.import.bibtex.created=Entry {0} created and available [[here&gt;&gt;{1}]].
+booktools.import.bibtex.cannotcreate=Can not create entry {0}.
+booktools.import.bibtex.entryexist=Entry {0} already [[exists&gt;&gt;{1}]] and has been skipped.
+booktools.import.bibtex.tooltip_bibtex=Put the BibTeX content here. Many entries can be use. The entries are decoded in UTF-8.
+booktools.import.bibtex.foundnothing=No entry was found.
+
+booktools.edit.entry.entry-type=Entry type
+booktools.edit.entry.filter-fields=Filter fields by entry type
+
+
+booktools.person.label_family=Family name
+booktools.person.label_given=Given name
+booktools.person.label_droppingParticle=Dropping particle
+booktools.person.label_nonDroppingParticle=Non dropping particle
+booktools.person.label_suffix=Suffix
+
+booktools.person.tooltip_family=Family name (e.g. Fontaine)
+booktools.person.tooltip_given=Given name (e.g. Jean)
+booktools.person.tooltip_droppingParticle=Dropping particle (e.g. de, van)
+booktools.person.tooltip_nonDroppingParticle=Non dropping particle (e.g. La)
+booktools.person.tooltip_suffix=Suffix (e.g. III, Jr.)
+
+booktools.person.create.title=Create a person
+booktools.person.create.need=You need first to [[log in&gt;&gt;{0}]] or [[register&gt;&gt;{1}]].
+booktools.person.create.submit=Create
+booktools.person.create.available=The new person record is available [[here&gt;&gt;{0}]].
+
+booktools.person.val_family=Must be between 2 and 100 characters.
+
+booktools.person.renderedFamilyFirst=Description (Family name first)
+booktools.person.renderedGivenFirst=Description (Given name first)
+booktools.person.details=Details
+
+booktools.person.referencedBy=Entries referencing this person: {0}
+booktools.person.referencedByButInaccessible=Inaccessible entries : {0}.
+booktools.person.referencedByOnOtherWiki=On wiki {0}
+
+
+booktools.entry.create.title=Create an entry
+booktools.entry.create.need=You need first to [[log in&gt;&gt;{0}]] or [[register&gt;&gt;{1}]].
+booktools.entry.create.submit=Create
+
+
+booktools.entry.val_id=Id must not be empty and must not exist on this wiki.
+booktools.entry.tooltip_id=Define they key used when citing the bibliographic entry.
+
+booktools.error.invalid-date=The field must be empty or a valid date YYYY, YYYY-MM, YYYY-MM-DD, YYYY/YYYY, YYYY-MM/YYYY-MM or YYYY-MM-DD/YYYY-MM-DD.
+booktools.error.empty-id=Id can not be empty.
+booktools.error.id-already-exists=This id already exists.
+booktools.error.invalid-id-format=The id can only contain lower case letters, upper case letters, numbers, :, -, . and _. The id length must be between 2 and 50.
+
+booktools.entry.rendered=Citation
+booktools.entry.biblatex=BibLaTeX
+booktools.entry.details=Details
+
+booktools.entry.annotationlist=Annotations
+booktools.entry.editannotation=Edit
+booktools.entry.deleteannotation=Delete
+booktools.entry.addannotation=Add an annotation
+
+booktools.entry.attachmentlist=Attachments
+booktools.entry.editattachment=Edit the attachement group
+booktools.entry.deleteattachment=Delete the attachement group
+booktools.entry.addattachment=Add an attachment group
+
+booktools.entry.referencedBy=Documents citing this entry: {0}
+booktools.entry.referencedByButInaccessible=Inaccessible documents : {0}.
+booktools.entry.referencedByOnOtherWiki=On wiki {0} (detection can be unreliable)
+
+booktools.entry.lastmodified=Last modified by {0} on {1}
+
+booktools.entry.add-person-before=Add before
+booktools.entry.add-person-after=Add after
+booktools.entry.add-person=Create a person
+booktools.entry.reload-persons=Refresh the list of persons
+
+booktools.entry.label_id=Citation key
+booktools.entry.tooltip_id=The key used to cite the entry with the macro cite or used to generate the BibLaTex export
+booktools.entry.label_type=The type of entry
+booktools.entry.tooltip_type=
+booktools.entry.label_title=Title
+booktools.entry.tooltip_title=
+booktools.entry.label_authors=Authors
+booktools.entry.tooltip_authors=
+booktools.entry.label_editors=Editors
+booktools.entry.tooltip_editors=
+booktools.entry.label_containerAuthors=Book author for materials in a book
+booktools.entry.tooltip_containerAuthors=
+booktools.entry.label_directors=Directors
+booktools.entry.tooltip_directors=
+booktools.entry.label_collectionEditors=Collection editors
+booktools.entry.tooltip_collectionEditors=
+booktools.entry.label_editorialDirectors=Editorial directors
+booktools.entry.tooltip_editorialDirectors=
+booktools.entry.label_interviewers=Interviewers
+booktools.entry.tooltip_interviewers=
+booktools.entry.label_illustrators=Illustrators
+booktools.entry.tooltip_illustrators=
+booktools.entry.label_recipients=Recipients
+booktools.entry.tooltip_recipients=
+booktools.entry.label_translators=Translators
+booktools.entry.tooltip_translators=
+booktools.entry.label_composers=Composers
+booktools.entry.tooltip_composers=
+booktools.entry.label_containerTitle=Book title for materials in a book, issue title for article in journal
+booktools.entry.tooltip_containerTitle=
+booktools.entry.label_collectionTitle=Journal title for a journal article if an issue title is defined
+booktools.entry.tooltip_collectionTitle=
+booktools.entry.label_chapterNumber=Chapter number
+booktools.entry.tooltip_chapterNumber=
+booktools.entry.label_collectionNumber=Collection number
+booktools.entry.tooltip_collectionNumber=
+booktools.entry.label_issued=Publication date
+booktools.entry.tooltip_issued=
+booktools.entry.label_event=Event name
+booktools.entry.tooltip_event=
+booktools.entry.label_eventDate=Event date
+booktools.entry.tooltip_eventDate=
+booktools.entry.label_eventPlace=Event place
+booktools.entry.tooltip_eventPlace=
+booktools.entry.label_accessed=Accessed on
+booktools.entry.tooltip_accessed=
+booktools.entry.label_issue=Issue number
+booktools.entry.tooltip_issue=
+booktools.entry.label_number=Number
+booktools.entry.tooltip_number=
+booktools.entry.label_volume=Volume
+booktools.entry.tooltip_volume=
+booktools.entry.label_numberOfVolumes=Number of volumes
+booktools.entry.tooltip_numberOfVolumes=
+booktools.entry.label_edition=Edition
+booktools.entry.tooltip_edition=
+booktools.entry.label_version=Version
+booktools.entry.tooltip_version=
+booktools.entry.label_genre=The type of work
+booktools.entry.tooltip_genre=Values with special meanings are software, unpublished, periodical, manual, proceedings, Master's thesis, PhD thesis, standard
+booktools.entry.label_publisher=Publisher or holder for a patent
+booktools.entry.tooltip_publisher=
+booktools.entry.label_publisherPlace=Publisher place or address
+booktools.entry.tooltip_publisherPlace=
+booktools.entry.label_page=Page or page range
+booktools.entry.tooltip_page=
+booktools.entry.label_numberOfPages=Number of pages
+booktools.entry.tooltip_numberOfPages=
+booktools.entry.label_ISBN=ISBN
+booktools.entry.tooltip_ISBN=
+booktools.entry.label_ISSN=ISSN
+booktools.entry.tooltip_ISSN=
+booktools.entry.label_DOI=DOI
+booktools.entry.tooltip_DOI=
+booktools.entry.label_URL=URL
+booktools.entry.tooltip_URL=
+booktools.entry.label_note=Note
+booktools.entry.tooltip_note=
+booktools.entry.label_submitted=Submitted on
+booktools.entry.tooltip_submitted=
+booktools.entry.label_status=Status
+booktools.entry.tooltip_status=
+booktools.entry.label_language=Language
+booktools.entry.tooltip_language=
+booktools.entry.label_abstract=Abstract
+booktools.entry.tooltip_abstract=
+booktools.entry.label_categories=Categories
+booktools.entry.tooltip_categories=
+booktools.entry.label_journalAbbreviation=Journal abbreviation
+booktools.entry.tooltip_journalAbbreviation=
+booktools.entry.label_shortTitle=Short title
+booktools.entry.tooltip_shortTitle=
+booktools.entry.label_originalDate=Original date
+booktools.entry.tooltip_originalDate=
+booktools.entry.label_archive=Archive
+booktools.entry.tooltip_archive=
+booktools.entry.label_archiveLocation=Archive location
+booktools.entry.tooltip_archiveLocation=
+booktools.entry.label_archivePlace=Archive place
+booktools.entry.tooltip_archivePlace=
+booktools.entry.label_authority=Authority
+booktools.entry.tooltip_authority=
+booktools.entry.label_callNumber=Call number
+booktools.entry.tooltip_callNumber=
+booktools.entry.label_containerTitleShort=Container title short
+booktools.entry.tooltip_containerTitleShort=
+booktools.entry.label_dimensions=Dimensions
+booktools.entry.tooltip_dimensions=
+booktools.entry.label_jurisdiction=Jurisdiction
+booktools.entry.tooltip_jurisdiction=
+booktools.entry.label_medium=Medium
+booktools.entry.tooltip_medium=
+booktools.entry.label_references=References
+booktools.entry.tooltip_references=
+booktools.entry.label_reviewedTitle=Reviewed title
+booktools.entry.tooltip_reviewedTitle=
+booktools.entry.label_reviewedAuthors=Reviewed authors
+booktools.entry.tooltip_reviewedAuthors=
+booktools.entry.label_scale=Scale
+booktools.entry.tooltip_scale=
+booktools.entry.label_section=Section
+booktools.entry.tooltip_section=
+booktools.entry.label_source=Source
+booktools.entry.tooltip_source=
+booktools.entry.label_titleShort=Title short
+booktools.entry.tooltip_titleShort=
+
+
+booktools.entry.selectanoption=Select an option
+
+booktools.error.parse-bitex=Could not parse BibTeX ({0}).
+
+
+booktools.wysiwyg.category=BookTools
+
+booktools.persons.title=List of the persons
+booktools.persons.livetable.renderedGivenFirst=Description
+booktools.persons.livetable._actions=Actions
+booktools.persons.livetable.emptyvalue=
+
+booktools.entries.title=List of the entries
+booktools.entries.livetable.id=Key
+booktools.entries.livetable.rendered=Description
+booktools.entries.livetable.issued=Date
+booktools.entries.livetable._actions=Actions
+booktools.entries.livetable.emptyvalue=
+
+booktools.indexedspaces.title=List of indexed spaces
+booktools.indexedspaces.livetable.doc.title=Title
+booktools.indexedspaces.livetable.doc.space=Space
+booktools.indexedspaces.livetable._actions=Actions
+booktools.indexedspaces.livetable.emptyvalue=
+
+booktools.annotation.create.submit=Save
+booktools.annotation.create.title=Create an annotation
+booktools.annotation.title=Annotation for [[{0}]]
+booktools.annotation.label_groups=Groups with granted access
+booktools.annotation.tooltip_groups=The groups of users which can read the annotation
+booktools.annotation.label_users=Users with granted access
+booktools.annotation.tooltip_users=The users which can read the annotation
+booktools.annotation.label_allowGuest=Guest are granted access
+booktools.annotation.tooltip_allowGuest=If true, guest users can read the annotation
+
+booktools.attachment.create.submit=Save
+booktools.attachment.create.title=Create an attachment
+booktools.attachment.title=Attachments for [[{0}]]
+booktools.attachment.label_groups=Groups with granted access
+booktools.attachment.tooltip_groups=The groups of users which can read the attachments
+booktools.attachment.label_users=Users with granted access
+booktools.attachment.tooltip_users=The users which can read the attachments
+booktools.attachment.label_allowGuest=Guest are granted access the attachments
+booktools.attachment.tooltip_description=The description of the attachments
+booktools.attachment.label_description=Description
+
+booktools.configuration.label_scope=Default bibliography scope
+booktools.configuration.label_extraSources=Extra wikis to look for bibliographic entries
+booktools.configuration.label_attachmentTranslations=Extra document providing translations for the description of attachments
+booktools.configuration.label_style=Citation Style Language style used in document citing entries
+booktools.configuration.label_entryStyle=Citation Style Language style used in entry page
+
+booktools.configuration.tooltip_scope=hidden (no bibliography list), page (include a restricted bibliography list on each page), cited (include the full bibliography list on each page)
+booktools.configuration.tooltip_extraSources=
+booktools.configuration.tooltip_attachmentTranslations=Entries must be prefixed with booktools.attachments.user.
+booktools.configuration.tooltip_style=
+booktools.configuration.tooltip_entryStyle=
+
+booktools.configuration.selectanoption=Select an option
+
+
+booktools.mergepersons.title=Merge two persons
+booktools.mergepersons.label_source=The source person to merge
+booktools.mergepersons.label_destination=The destination person by the which source is replaced
+booktools.mergepersons.mergedone={0} has been merged with {1}
+booktools.mergepersons.mergeerror=An error occurred
+booktools.mergepersons.submit=Merge
+
+booktools.entrytype.fieldsvisible=Visible field by default
+booktools.entrytype.shouldfieldsbevisible=Visible field by default
+
+booktools.toc.title=Table of contents
+booktools.toc.pleasewait=Please wait...
+booktools.navigation.previous=Previous
+booktools.navigation.next=Next
+booktools.navigation.up=Up
+booktools.navigation.firstpage=First page
+
+</content>
+</xwikidoc>

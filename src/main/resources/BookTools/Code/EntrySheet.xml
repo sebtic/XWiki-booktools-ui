@@ -1,0 +1,1186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.2" reference="BookTools.Code.EntrySheet" locale="">
+  <web>BookTools.Code</web>
+  <name>EntrySheet</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1467638915000</creationDate>
+  <parent>BookTools.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1473075870000</date>
+  <contentUpdateDate>1473075855000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity}}
+{{html wiki=true}}
+#set($docextras=[])
+### setting right mode for the sheet 
+### setting $curdoc variable either already set or set to $doc
+#if(!$mode)
+  #if($xcontext.action=="inline" || $xcontext.action=="edit")
+    #set($mode = "edit")
+  #else
+    #set($mode = "view")
+  #end
+#end
+#if(!$curdoc)
+  #set($curdoc = $doc)
+#end
+$xwiki.jsx.use("BookTools.Code.EntrySheet")
+$xwiki.ssx.use("BookTools.Code.EntrySheet")
+#set($xobject = $curdoc.getObject('BookTools.Code.EntryClass'))
+#### begin display macros
+### this macro shows a validation error message if it exists
+#macro(showvalidationmessage $message)
+  #if($xcontext.validationStatus.errors.contains($message))
+    {{error}}$services.localization.render($message){{/error}}
+  #end
+#end ## end showvalidationmessage
+### this macros displays a field and it's tooltip
+#macro(showfield $fieldname $errorCodes)
+  #if( $mode == "edit")
+    (% fieldname="$fieldname" class="simpleinput" %) (((
+      &lt;label for="BookTools.Code.EntryClass_0_$fieldname"
+        data-toggle='tooltip' 
+        title='$!escapetool.xml($services.localization.render("booktools.entry.tooltip_$fieldname"))'&gt;
+          $!escapetool.xml($services.localization.render("booktools.entry.label_$fieldname"))
+          &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt; :
+      &lt;/label&gt;
+      &lt;div&gt;$curdoc.display($fieldname, $mode)
+      #foreach($errorCode in $errorCodes)
+        #showvalidationmessage($errorCodes)
+      #end
+     &lt;/div&gt;
+    )))
+  #else
+    #set($value = $xobject.getProperty($fieldname).value)
+    #if ($stringtool.isNotBlank($value.trim()))
+      (((
+        &lt;span data-toggle='tooltip' 
+          title='$!escapetool.xml($services.localization.render("booktools.entry.tooltip_$fieldname"))'&gt; 
+          $!escapetool.xml($services.localization.render("booktools.entry.label_$fieldname"))
+          &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt;
+        &lt;/span&gt; : $curdoc.display($fieldname, $mode)
+      )))
+    #end
+  #end
+#end ## end showfield macro
+#macro(showbigfield $fieldname)
+  #if( $mode == "edit")
+    (% fieldname="$fieldname" class="biginput"  %) (((
+      &lt;label for="BookTools.Code.EntryClass_0_$fieldname"
+        data-toggle='tooltip' 
+        title='$!escapetool.xml($services.localization.render("booktools.entry.tooltip_$fieldname"))'&gt;
+          $!escapetool.xml($services.localization.render("booktools.entry.label_$fieldname"))
+          &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt; :
+      &lt;/label&gt;&lt;br&gt;
+      $curdoc.display($fieldname, $mode)
+     #showvalidationmessage("booktools.entry.val_$fieldname")
+    )))
+  #else
+    #set($value = $xobject.getProperty($fieldname).value)
+    #if ($stringtool.isNotBlank($value.trim()))
+      (((
+        &lt;span data-toggle='tooltip' 
+          title='$!escapetool.xml($services.localization.render("booktools.entry.tooltip_$fieldname"))'&gt; 
+          $!escapetool.xml($services.localization.render("booktools.entry.label_$fieldname"))
+          &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt;
+        &lt;/span&gt; :&lt;br&gt; $curdoc.display($fieldname, $mode)
+      )))
+    #end
+  #end
+#end ## end showfield macro
+#macro(showpersonsselector $fieldname)
+#if( $mode == "edit")
+  (% fieldname="$fieldname" class="persons-widgets" %) (((
+    &lt;fieldset&gt;
+        &lt;label for="BookTools.Code.EntryClass_0_$fieldname"
+          data-toggle='tooltip' 
+          title='$!escapetool.xml($services.localization.render("booktools.entry.tooltip_$fieldname"))'&gt;
+            $!escapetool.xml($services.localization.render("booktools.entry.label_$fieldname"))
+            &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt; :
+            &lt;span class="pull-right bibliography-add-reload-actions"&gt;
+        #set($createPersonref = $services.model.createDocumentReference('', ['BookTools', 'Code'], 'CreatePerson'))
+        #set($createPersondoc = $xwiki.getDocument($createPersonref))
+        #set($createPersonurl = $createPersondoc.getURL('view'))        
+        &lt;a href="$createPersonurl" target="_blank" class="add-person" title="$!escapetool.xml($services.localization.render('booktools.entry.add-person'))" &gt;$services.icon.renderHTML("add")&lt;/a&gt;
+        &lt;a class="reload-persons" title="$!escapetool.xml($services.localization.render('booktools.entry.reload-persons'))" &gt;$services.icon.renderHTML("refresh")&lt;/a&gt;
+        &lt;/span&gt;
+        &lt;/label&gt;&lt;br&gt;
+        $curdoc.display($fieldname, "hidden")
+        #showvalidationmessage("booktools.entry.val_$fieldname")        
+      (% class="persons-selects" %) (((
+      )))
+      &lt;/fieldset&gt;
+  )))
+#else
+  #set($value = $xobject.getProperty($fieldname).value)
+  #if( $stringtool.isNotBlank($value.trim()) )
+    (((
+      &lt;span data-toggle='tooltip'
+             title='$!escapetool.xml($services.localization.render("booktools.entry.tooltip_$fieldname"))'&gt;
+             $!escapetool.xml($services.localization.render("booktools.entry.label_$fieldname")) :&lt;/span&gt;
+        #foreach( $val in $stringtool.splitByWholeSeparator($value, '|') )
+          #set($itemdoc = $xwiki.getDocument($val))
+          * [[$itemdoc.title&gt;&gt;$val]]
+        #end
+    )))
+  #end
+#end
+#end ## end macro replacepersonsselector
+#macro(showtype $fieldname)
+  #if( $mode == "edit")
+    (% fieldname="$fieldname" class="typeinput" %) (((     
+      &lt;label for="BookTools.Code.EntryClass_0_$fieldname"
+        data-toggle='tooltip' 
+        title='$!escapetool.xml($services.localization.render("booktools.entry.tooltip_$fieldname"))'&gt;
+          $!escapetool.xml($services.localization.render("booktools.entry.label_$fieldname"))
+        &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt; :
+      &lt;/label&gt;
+      $curdoc.display($fieldname, $mode)
+      #showvalidationmessage("booktools.entry.val_$fieldname")        
+      &lt;input id='filterfield' type='checkbox' name='filterfield' checked&gt;&lt;label for='filterfield'&gt;Filter fields&lt;/label&gt;
+      
+    )))
+  #else
+    #set($value = $xobject.getProperty($fieldname).value)
+    #if ($stringtool.isNotBlank($value.trim()))
+      (((
+      &lt;span data-toggle='tooltip' 
+        title='$!escapetool.xml($services.localization.render("booktools.entry.tooltip_$fieldname"))'&gt;
+          $!escapetool.xml($services.localization.render("booktools.entry.label_$fieldname")) : &lt;/span&gt; $curdoc.display($fieldname, $mode)
+      )))
+    #end
+  #end
+#end
+##### end macros
+$curdoc.use("BookTools.Code.EntryClass")
+#if($mode != "edit")
+(% class="bibliography-accordion" %) (((
+=== $services.localization.render('booktools.entry.rendered') ===
+(% class="bibliography-rendered" %) ((($xobject.getProperty("rendered").value)))
+=== $services.localization.render('booktools.entry.biblatex') ===
+(% class="bibliography-biblatex" %) ((({{code language="bibtex"}}$xobject.getProperty("biblatex").value{{/code}})))
+=== $services.localization.render('booktools.entry.details') ===
+#end
+(((
+##
+#set($fields = ["id", "type", "title", "authors", "editors", "containerAuthors", "directors", "collectionEditors", "editorialDirectors", "interviewers", "illustrators", "recipients", "translators", "composers", "containerTitle", "collectionTitle", "chapterNumber", "collectionNumber", "issued", "event", "eventDate", "eventPlace", "accessed", "issue", "number", "volume", "numberOfVolumes", "edition", "version", "genre", "publisher", "publisherPlace", "page", "numberOfPages", "ISBN", "ISSN", "DOI", "URL", "note", "submitted", "status", "language", "abstract", "categories", "journalAbbreviation", "shortTitle", "originalDate", "archive", "archiveLocation", "archivePlace", "authority", "callNumber", "containerTitleShort", "dimensions", "jurisdiction", "medium", "references", "reviewedTitle", "reviewedAuthors", "scale", "section", "source", "titleShort" ])
+#set($personfields = ["authors", "collectionEditors", "composers", "containerAuthors", "directors", "editorialDirectors", "editors", "illustrators", "interviewers", "recipients", "reviewedAuthors", "translators" ])
+#set($bigfields = ["categories", "references",  "URL", 'abstract'])
+#set($datefields = ["accessed", "eventDate", "issued", "originalDate", "submitted"])
+#foreach($fieldname in $fields)
+  #if ($personfields.contains($fieldname))
+    #showpersonsselector($fieldname)
+  #else
+    #if( "type" == $fieldname )
+      #showtype($fieldname)
+    #else
+      #if($bigfields.contains($fieldname))
+        #showbigfield($fieldname)
+      #else
+        #if($datefields.contains($fieldname))
+          #showbigfield($fieldname, ["booktools.error.invalid-date"])
+        #else
+          #if($fieldname == "id")
+            #showfield($fieldname, ["booktools.error.empty-id","booktools.error.id-already-exists","booktools.error.invalid-id-format"])
+          #else
+            #showfield($fieldname, [])
+          #end
+        #end      
+      #end
+    #end
+  #end
+#end
+)))
+#set($annotationChildrenDoc = [])
+#set($showAnnotationSection = $services.security.authorization.hasAccess('edit', $curdoc.documentReference))
+#foreach( $child in $xwiki.getDocument($curdoc.parent).children)
+  #if( $services.security.authorization.hasAccess('view', $child) )
+    #set($childRef = $services.model.resolveDocument($child, 'default'))
+    #set($childDoc = $xwiki.getDocument($childRef))
+    #if ($childDoc.getObject("BookTools.Code.AnnotationClass"))
+      #set($discard = $annotationChildrenDoc.add($childDoc))
+      #set($showAnnotationSection = true)
+    #end
+  #end
+#end
+#if($mode == "edit")
+  #set($showAnnotationSection = false)
+#end
+#if($showAnnotationSection)
+  #set($createAnnotationRef = $services.model.createDocumentReference('', ['BookTools', 'Code'], 'CreateAnnotation'))
+=== $services.localization.render('booktools.entry.annotationlist') ===
+(((
+  #foreach( $childDoc in $annotationChildrenDoc)
+    #set($child = $services.model.serialize($childDoc.documentReference))
+    #set($viewChildUrl = $childDoc.getURL('view'))
+    #set($deleteChildUrl = $childDoc.getURL('delete'))
+    #set($editChildUrl = $childDoc.getURL('edit'))
+    (% class="bibliography-annotation" %) (((
+      {{include reference="$child" /}}
+      #if( $services.security.authorization.hasAccess('edit', $child) )
+        #set($xobject = $childDoc.getObject("BookTools.Code.AnnotationClass"))
+        #set($groups = $stringtool.split($stringtool.defaultIfBlank($xobject.getValue("groups"),""),","))
+        #set($users = $stringtool.split($xobject.getValue("users"),","))
+        #set($allowGuest = $xobject.getValue("allowGuest"))
+        #if( $allowGuest == 1 ) #set($allowGuest = "yes") #else #set($allowGuest = "no") #end
+        (% class="pull-left bibliography-grants" %) (((
+        #if( $groups.size() &gt; 0 )
+          * &lt;span data-toggle='tooltip'
+            title='$services.localization.render("booktools.annotation.tooltip_groups")'&gt;
+            $services.localization.render("booktools.annotation.label_groups")
+            &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt;
+            &lt;/span&gt; : 
+            #foreach( $group in $groups ) 
+          ** #if( $stringtool.isNotBlank($group) ) $stringtool.trim($group) #end 
+          
+            #end
+          #end
+          #if( $users.size() &gt; 0 )
+          * &lt;span data-toggle='tooltip'
+            title='$services.localization.render("booktools.annotation.tooltip_users")'&gt;
+            $services.localization.render("booktools.annotation.label_users")
+            &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt;
+            &lt;/span&gt; : 
+            #foreach( $user in $users ) 
+          ** #if( $stringtool.isNotBlank($user) ) $xwiki.getUserName($user) #end
+          
+            #end
+          #end
+          #if(!$allowGuest)
+          * &lt;span data-toggle='tooltip'
+            title='$services.localization.render("booktools.annotation.tooltip_allowGuest")'&gt;
+            $services.localization.render("booktools.annotation.label_allowGuest")
+            &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt;
+            &lt;/span&gt; : $allowGuest
+          #end
+        )))   
+      #end
+      (((
+      (% class="pull-right bibliography-actionmenu" %) (((
+        &lt;span class="bibliography-actionmenu-lastmodified"&gt;
+        $services.localization.render('booktools.entry.lastmodified', [$xwiki.getUserName($childDoc.contentAuthor), $xwiki.formatDate($childDoc.date) ] )
+        &lt;/span&gt;
+        &lt;span class="bibliography-actionmenu-icons"&gt;
+        &lt;a href="$!escapetool.xml($viewChildUrl)" 
+           title="$!escapetool.xml($services.localization.render('booktools.entry.viewannotation'))" &gt;$services.icon.renderHTML('search')&lt;/a&gt;
+        #if( $services.security.authorization.hasAccess('edit', $child) )
+        &lt;a href="$!escapetool.xml($editChildUrl)" 
+           title="$!escapetool.xml($services.localization.render('booktools.entry.editannotation')) &gt;$services.icon.renderHTML('pencil')&lt;/a&gt;
+        &lt;a href="$!escapetool.xml($deleteChildUrl)" 
+           title="$!escapetool.xml($services.localization.render('booktools.entry.deleteannotation')) &gt;$services.icon.renderHTML('delete')&lt;/a&gt;        
+        #end
+        &lt;/span&gt;        
+      )))
+      (% style="clear:both" %)((( )))
+      )))
+    )))
+  #end
+  #if( $services.security.authorization.hasAccess('edit',  $services.model.serialize($curdoc.documentReference)) )
+  [[$services.icon.render('add', 'Font Awesome', false) $services.localization.render('booktools.entry.addannotation')&gt;&gt;$createAnnotationRef||queryString="entry=$curdoc.documentReference" title="$!escapetool.xml($services.localization.render('booktools.entry.addannotation'))"]]#end
+  )))
+#end
+#set($attachmentChildrenDoc = [])
+#set($showAttachmentSection = $services.security.authorization.hasAccess('edit', $curdoc.documentReference))
+#foreach( $child in $xwiki.getDocument($curdoc.parent).children)
+  #if( $services.security.authorization.hasAccess('view', $child) )
+    #set($childRef = $services.model.resolveDocument($child, 'default'))
+    #set($childDoc = $xwiki.getDocument($childRef))
+    #if ($childDoc.getObject("BookTools.Code.AttachmentClass"))
+      #set($discard = $attachmentChildrenDoc.add($childDoc))
+      #set($showAttachmentSection = true)
+    #end
+  #end
+#end
+#if($mode == "edit")
+  #set($showAttachmentSection = false)
+#end
+#if($showAttachmentSection)
+#set($createAttachmentRef = $services.model.createDocumentReference('', ['BookTools', 'Code'], 'CreateAttachment'))
+  #set($configRef = $services.model.createDocumentReference($curdoc.documentReference.wikiReference.name, ["BookTools", "Configuration"], "Configuration" ))
+  #set($configDoc = $xwiki.getDocument($configRef))
+  #set($configObj = $configDoc.getObject("BookTools.Code.ConfigurationClass"))
+  #foreach($translationPage in $configObj.getProperty("attachmentTranslations").value)
+    #set($discard = $services.localization.use('document', $translationPage))
+  #end
+=== $services.localization.render('booktools.entry.attachmentlist') ===
+(((
+  #foreach( $childDoc in $attachmentChildrenDoc)
+    #set($child = $services.model.serialize($childDoc.documentReference))
+    #set($viewChildUrl = $childDoc.getURL('view'))
+    #set($deleteChildUrl = $childDoc.getURL('delete'))
+    #set($editChildUrl = $childDoc.getURL('edit'))
+    (% class="bibliography-attachment" %) (((
+      #set($attachments = $sorttool.sort($childDoc.attachmentList, "filename"))
+      #if($attachments.size() &gt; 0)
+        &lt;span class="bibliography-attachment-description"&gt;
+        #set($translationKey='booktools.attachments.user.'+$childDoc.get("description").trim())
+        #if($services.localization.get($translationKey))
+          $services.localization.render($translationKey)
+        #else
+          $childDoc.get("description")&lt;/span&gt;
+        #end
+        &lt;ul&gt;
+        #foreach ($attach in $attachments)
+          &lt;li&gt;&lt;div class="attachment #if($velocityCount % 2 == 0) even #else odd #end"&gt;
+          &lt;span class="mime"&gt;#mimetypeimg($attach.getMimeType().toLowerCase() $attach.getFilename().toLowerCase())&lt;/span&gt;
+          &lt;span class="name"&gt;&lt;a href="$childDoc.getAttachmentURL(${attach.filename}, 'download')"
+                title="$services.localization.render('core.viewers.attachments.download')"&gt;$escapetool.xml($attach.filename)&lt;/a&gt;&lt;/span&gt;
+          #if("$!{services.officemanager.serverState}" == "Connected" &amp;&amp; $services.officeviewer.isMimeTypeSupported($attach.getMimeType().toLowerCase()))
+              &lt;a class="viewlink btn btn-xs btn-default" 
+                 title="$services.localization.render('core.viewers.attachments.officeView.title')"
+                 href="${childDoc.getURL('view', "xpage=office&amp;attachment=$escapetool.url($attach.filename)")}"
+                 target="_blank"&gt;#glyphicon('eye-open')&lt;/a&gt;
+          #end
+          &lt;/div&gt;&lt;/li&gt;
+        #end
+        &lt;/ul&gt;
+      #else ## No attachments
+        &lt;p class="noitems"&gt;$services.localization.render('core.viewers.attachments.noAttachments')&lt;/p&gt;
+      #end
+      #if( $services.security.authorization.hasAccess('edit', $child) )
+        #set($xobject = $childDoc.getObject("BookTools.Code.AttachmentClass"))
+        #set($groups = $stringtool.split($stringtool.defaultIfBlank($xobject.getValue("groups"),""),","))
+        #set($users = $stringtool.split($xobject.getValue("users"),","))
+        #set($allowGuest = $xobject.getValue("allowGuest"))
+        #if( $allowGuest == 1 ) #set($allowGuest = "yes") #else #set($allowGuest = "no") #end
+        (% class="pull-left bibliography-grants" %) (((
+          #if( $groups.size() &gt; 0 )
+          * &lt;span data-toggle='tooltip'
+            title='$services.localization.render("booktools.attachment.tooltip_groups")'&gt;
+            $services.localization.render("booktools.attachment.label_groups")
+            &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt;
+            &lt;/span&gt; : 
+            #foreach( $group in $groups ) 
+          ** #if( $stringtool.isNotBlank($group) ) $stringtool.trim($group) #end 
+          
+            #end
+          #end
+          #if( $users.size() &gt; 0 )
+          * &lt;span data-toggle='tooltip'
+            title='$services.localization.render("booktools.attachment.tooltip_users")'&gt;
+            $services.localization.render("booktools.attachment.label_users")
+            &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt;
+            &lt;/span&gt; : 
+            #foreach( $user in $users ) 
+          ** #if( $stringtool.isNotBlank($user) ) $xwiki.getUserName($user) #end
+          
+            #end
+          #end
+          #if(!$allowGuest)
+          * &lt;span data-toggle='tooltip'
+            title='$services.localization.render("booktools.attachment.tooltip_allowGuest")'&gt;
+            $services.localization.render("booktools.attachment.label_allowGuest")
+            &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt;
+            &lt;/span&gt; : $allowGuest
+          #end
+        )))   
+      #end
+      (((
+      (% class="pull-right bibliography-actionmenu" %) (((
+        &lt;span class="bibliography-actionmenu-lastmodified"&gt;
+        $services.localization.render('booktools.entry.lastmodified', [$xwiki.getUserName($childDoc.contentAuthor), $xwiki.formatDate($childDoc.date) ] )
+        &lt;/span&gt;
+        &lt;span class="bibliography-actionmenu-icons"&gt;
+        &lt;a href="$!escapetool.xml($viewChildUrl)" 
+           title="$!escapetool.xml($services.localization.render('booktools.entry.viewattachment'))" &gt;$services.icon.renderHTML('search')&lt;/a&gt;
+        #if( $services.security.authorization.hasAccess('edit', $child) )
+        &lt;a href="$!escapetool.xml($editChildUrl)" 
+           title="$!escapetool.xml($services.localization.render('booktools.entry.editattachment')) &gt;$services.icon.renderHTML('pencil')&lt;/a&gt;
+        &lt;a href="$!escapetool.xml($deleteChildUrl)" 
+           title="$!escapetool.xml($services.localization.render('booktools.entry.deleteattachment')) &gt;$services.icon.renderHTML('delete')&lt;/a&gt;        
+        #end
+        &lt;/span&gt; 
+      )))
+      (% style="clear:both" %)((( )))
+      )))
+    )))
+    #end
+    #if( $services.security.authorization.hasAccess('edit',  $services.model.serialize($curdoc.documentReference)) )
+    [[$services.icon.render('add', 'Font Awesome', false) $services.localization.render('booktools.entry.addattachment') &gt;&gt;$createAttachmentRef||queryString="entry=$curdoc.documentReference" title="$!escapetool.xml($services.localization.render('booktools.entry.addattachment'))"]]
+    #end
+    )))
+#end
+
+#if($mode != "edit")
+  #set($map = $services.booktools.getDocumentReferencingEntry($xobject.getProperty("id").value))
+  #set($sum = 0)
+  #set($hiddenCount = 0)
+  #foreach($mapEntry in $map.entrySet())
+    #set($filtered = [])
+    #foreach($ref in $mapEntry.value)
+      #if($services.security.authorization.hasAccess('view', $ref))
+        #set($discard = $filtered.add($ref))
+        #set($sum = $sum + 1)
+      #else
+        #set($hiddenCount = $hiddenCount + 1)
+      #end
+    #end
+    #set($discard = $mapEntry.value.clear())
+    #set($discard = $mapEntry.value.addAll($filtered))
+  #end
+  
+  #set($sum = $sum + $hiddenCount)
+  
+    #if($sum+$hiddenCount &gt;0)
+      === $services.localization.render('booktools.entry.referencedBy', $sum) ===
+      (((
+      #foreach($ref in $map.get($curdoc.documentReference.wikiReference.name))
+          * [[$xwiki.getDocument($ref).fullName&gt;&gt;$ref]]
+      #end
+
+      #foreach($mapEntry in $map.entrySet())
+        #if(!$mapEntry.value.isEmpty() &amp;&amp; $mapEntry.key != $curdoc.documentReference.wikiReference.name)
+          #set($wikiDescriptor = $services.wiki.getById($mapEntry.key))
+          ==== $services.localization.render('booktools.entry.referencedByOnOtherWiki', [ "[[$wikiDescriptor.prettyName&gt;&gt;$wikiDescriptor.mainPageReference]]" ]) ===
+          #foreach($ref in $mapEntry.value)
+              * [[$xwiki.getDocument($ref).fullName&gt;&gt;$ref]]
+          #end
+        #end
+      #end
+
+      #if( $hiddenCount &gt; 0)
+      * $services.localization.render('booktools.entry.referencedByButInaccessible', $hiddenCount)
+      #end
+    )))
+  #end
+#end
+
+#if($mode != "edit")
+))) ## accordion
+#end
+##
+## Invoke validation
+&lt;input type="hidden" name="xvalidate" value="1" /&gt;
+&lt;input type="hidden" name="xvalidation" value="BookTools.Code.EntryValidationGroovy" /&gt;
+{{/html}}
+{{/velocity}}</content>
+  <object>
+    <name>BookTools.Code.EntrySheet</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>6776fba8-f122-4145-9bb8-a3713c214b79</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>require(['jquery', "$services.webjars.url('jquery-ui', 'jquery-ui.js')"], function ($) {
+
+  // load jquery-ui.css
+  function loadCss(url) {
+    var link = document.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = url;
+    document.getElementsByTagName("head")[0].appendChild(link);
+  }
+  loadCss("$services.webjars.url('jquery-ui', 'jquery-ui.css')");
+  loadCss("$services.webjars.url('select2', 'dist/css/select2.min.css')");
+});
+</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.EntrySheet</name>
+    <number>1</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>ce56c0ee-2b3b-4aa2-bf22-77f1434c9526</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>#set($listpersonsjsonref = $services.model.createDocumentReference('', ['BookTools', 'Code'], 'ListPersonsJson'))
+#set($listpersonsjsondoc = $xwiki.getDocument($listpersonsjsonref))
+#set($listpersonsjsonurl = $listpersonsjsondoc.getURL('view', 'xpage=plain&amp;outputSyntax=plain'))
+  
+require(['jquery', "$services.webjars.url('jquery-ui', 'jquery-ui.js')", "$services.webjars.url('select2', 'dist/js/select2.min.js')"], function ($) {
+  
+  var personsDatabase = {};
+  
+  function updateSelectsData() {
+    $.getJSON( "$listpersonsjsonurl", function( data, status, xhr ) {
+      personsDatabase = data;
+      // update data
+      $('.person-select').each(function (index, select) {
+        var val = $(select).val();
+        $(select).select2({
+          placeholder: "$services.localization.render('booktools.entry.selectanoption')",
+          allowClear: true,
+          data: personsDatabase}).val(val).trigger('change');
+        });
+      });
+  }
+  
+  function updateInputFields() {
+    $('.persons-widgets').each(function (index, widget){
+      var input = $(widget).find('input');
+      var selections = [];
+      $(widget).find(".person-select").each(function (index, select) {
+        var val = $(select).val();
+        selections.push(val);
+      });
+      var merged = $.grep(selections, Boolean).join("|");
+      input.val(merged);
+    });
+  }
+  
+  #set($addBeforeTitle = "$!escapetool.xml($services.localization.render('booktools.entry.add-person-before'))")
+  #set($addAfterTitle = "$!escapetool.xml($services.localization.render('booktools.entry.add-person-after'))")
+  #set($addTitle = "$!escapetool.xml($services.localization.render('booktools.entry.add-person'))")
+  #set($actions = '&lt;span class="add-actionmenu-icons pull-right"&gt;' +
+                '&lt;a class="add-before-person" title="'+$addBeforeTitle+'" &gt;'+$services.icon.renderHTML("add")+$addBeforeTitle+'&lt;/a&gt;' + 
+                '&lt;a class="add-after-person" title="'+$addAfterTitle+'" &gt;'+$services.icon.renderHTML("add")+$addAfterTitle+'&lt;/a&gt;' + 
+                '&lt;/span&gt;')
+
+  function newPersonSelectorBlock() {
+    var block = $("&lt;div class='person-selector-block'&gt;&lt;/div");
+    block.append("&lt;select class='person-select'&gt;&lt;/select&gt;")
+    block.append('$actions')
+    block.find('.add-before-person').click(function(e) {
+      e.preventDefault();
+      var newSelector = newPersonSelectorBlock();
+      newSelector.insertBefore($(this).parent().parent());
+      enablePersonSelector(newSelector,null);
+    });
+    block.find('.add-after-person').click(function(e) {
+      e.preventDefault();
+      var newSelector = newPersonSelectorBlock();
+      newSelector.insertAfter($(this).parent().parent());
+      enablePersonSelector(newSelector,null);
+    });    
+    return block;
+  }
+  
+  // this code is separated from newPersonSelectorBlock 
+  // to allow to insert the block in the DOM before 
+  // then to allow select2 to properly detect the size 
+  function enablePersonSelector(parent, value) {
+    var select = parent.find("select");
+    select.select2({
+      placeholder: "$services.localization.render('booktools.entry.selectanoption')",
+      allowClear: true,
+      data: personsDatabase
+    });
+    select.val(value);
+    select.trigger('change');
+    select.on('change', function (e) { updateInputFields(); });
+  }
+  
+  
+  function setupPersonSelectors() {
+    $.getJSON( "$listpersonsjsonurl", function( data, status, xhr ) {
+      personsDatabase = data;
+      // create select and set selected value
+      $('.persons-widgets').each( function (index, widget) {       
+         var input = $(widget).find('input');
+         var selects = $(widget).find('.persons-selects');
+         input.val().split("|").forEach(function (value) {
+           var val = value.trim();
+           if (!val) val = null
+           var block = newPersonSelectorBlock(val);
+           selects.append(block);
+           enablePersonSelector(block, val);
+         });
+      });
+    });
+  }
+
+ 
+  setupPersonSelectors();
+ 
+  $('.reload-persons').click(function (event) {
+    event.preventDefault();
+    updateSelectsData();
+  });
+
+  
+  /* hide useless buttons */
+  $(".meta-versionSummary").hide();
+  $("input[name='action_preview']").hide();
+  $("input[name='action_saveandcontinue']").hide();
+});</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.EntrySheet</name>
+    <number>3</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>5a23092e-1f85-4bff-8d8f-3cf74fc31cb6</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>#set($listentrytypesjsonref = $services.model.createDocumentReference('', ['BookTools', 'Code'], 'ListEntryTypesJson'))
+#set($listentrytypesjsondoc = $xwiki.getDocument($listentrytypesjsonref))
+#set($listentrytypesjsonurl = $listentrytypesjsondoc.getURL('view', 'xpage=plain&amp;outputSyntax=plain'))
+
+require(['jquery', "$services.webjars.url('jquery-ui', 'jquery-ui.js')", "$services.webjars.url('select2', 'dist/js/select2.min.js')"], function ($) {
+  
+  var options = {
+    placeholder: "$services.localization.render('booktools.configuration.selectanoption')",
+    allowClear: false
+  };
+
+  $("#BookTools\\.Code\\.EntryClass_0_type").select2(options).on("select2:select", function (e) { updateVisibilities(); });
+
+  var entryTypes = {};
+      
+  $.getJSON( "$listentrytypesjsonurl", function( data, status, xhr ) {
+    entryTypes = data;
+    $("#filterfield").click( function (e) { updateVisibilities(); });
+    updateVisibilities();
+  });  
+  
+  function updateVisibilities() {
+    var value = $("#BookTools\\.Code\\.EntryClass_0_type").val();
+    var filterfield = $("#filterfield").prop("checked");
+    
+    var filteredSet = {};
+    
+    if (filterfield) {
+      entryTypes.each( function (entryType, id) {
+        if (entryType['type'] == value) {
+          filteredSet = entryTypes[id];
+        }
+      });
+    }
+    
+    var alwaysVisible = {type:true, id:true};
+    
+    $("div[fieldname]").each( function( index, element ) {
+      var fieldname = $(element).attr('fieldname');
+     
+      if (filterfield &amp;&amp; !filteredSet[fieldname] &amp;&amp; !alwaysVisible[fieldname])
+        $(element).hide();
+      else
+        $(element).show();
+    });    
+  }
+});</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.EntrySheet</name>
+    <number>4</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>ea058ec0-08a2-4c15-a455-80a956021cfd</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>require(['jquery', "$services.webjars.url('jquery-ui', 'jquery-ui.js')"], function ($) {
+ $(".bibliography-accordion").accordion({
+      heightStyle: "panel",
+    });
+});
+</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.EntrySheet</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>ffe56688-33f3-4cb0-a910-77e46deb9a61</guid>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>6</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>3</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <contentType>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>contentType</name>
+        <number>1</number>
+        <prettyName>Content Type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>CSS|LESS</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </contentType>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>2</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>5</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>4</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>[fieldname="categories"] label.xwiki-form-listclass {
+  display: inline-block;
+  padding-right: 5px;
+}
+
+.bibliography-annotation {
+  border-bottom : 1px solid #ddd;
+  padding:0;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+.bibliography-actionmenu-icons {
+  font-size: 18px;
+  padding-left: 15px;
+}
+
+.bibliography-grants {
+  border : 1px solid #ddd;
+}
+.bibliography-grants ul {
+  padding-right:10px;
+  margin-bottom:0;
+}
+
+div[fieldname] { margin: 0; padding: 0; margin-bottom: 5px; }
+
+div[fieldname].simpleinput label { float: left; width: auto; margin-right: 10px; padding-top: 7px; }
+div[fieldname].simpleinput label + div { width: auto; overflow: auto }
+div[fieldname].simpleinput input { width: 100%; -moz-box-sizing: border-box; box-sizing: border-box }
+
+div[fieldname].biginput textarea { width:100%; }
+
+
+
+#filterfield {
+  width:auto;
+  margin-left: 10px;
+}
+
+
+.bibliography-add-reload-actions {
+  margin-left: 10px;
+}
+
+
+select.person-select {
+  width:80%;
+}
+
+div.bibliography-rendered {
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.add-actionmenu-icons a {
+  margin-left: 10px;
+}
+
+.add-actionmenu-icons .fa {
+  margin-right: 5px;
+}</code>
+    </property>
+    <property>
+      <contentType>CSS</contentType>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+</xwikidoc>

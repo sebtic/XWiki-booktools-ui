@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc reference="BookTools.Code.EntryTypeSheet" locale="">
+  <web>BookTools.Code</web>
+  <name>EntryTypeSheet</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>BookTools.Code.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1467633405000</creationDate>
+  <date>1472316642000</date>
+  <contentUpdateDate>1472316642000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity}}
+#set($docextras=[])
+## You can modify this page to customize the presentation of your object.
+## At first you should keep the default presentation and just save the document.
+{{html wiki=true}}
+#set($fields = ["type", "title", "authors", "editors", "containerAuthors", "directors", "collectionEditors", "editorialDirectors", "interviewers", "illustrators", "recipients", "translators", "composers", "containerTitle", "collectionTitle", "chapterNumber", "collectionNumber", "issued", "event", "eventDate", "eventPlace", "accessed", "issue", "number", "volume", "numberOfVolumes", "edition", "version", "genre", "publisher", "publisherPlace", "page", "numberOfPages", "ISBN", "ISSN", "DOI", "URL", "note", "submitted", "status", "language", "abstract", "categories", "journalAbbreviation", "shortTitle", "originalDate", "archive", "archiveLocation", "archivePlace", "authority", "callNumber", "containerTitleShort", "dimensions", "jurisdiction", "medium", "references", "reviewedTitle", "reviewedAuthors", "scale", "section", "source", "titleShort" ])
+#if($xcontext.action == "edit")
+  &lt;h1&gt;$services.localization.render("booktools.entrytype.shouldfieldsbevisible")&lt;/h1&gt;
+  #foreach($fieldname in $fields)
+    &lt;div&gt;
+      $services.localization.render("booktools.entry.label_$fieldname")
+      &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt; :
+      $doc.display($fieldname)
+    &lt;/div&gt;
+  #end
+#else
+  #set($xobject = $doc.getObject('BookTools.Code.EntryTypeClass'))
+  &lt;h1&gt;$services.localization.render("booktools.entrytype.fieldsvisible")&lt;/h1&gt;
+  #foreach($fieldname in $fields)
+    #if( $xobject.getProperty($fieldname).value == 1 )
+      &lt;div&gt;
+        $services.localization.render("booktools.entry.label_$fieldname")
+        &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt;
+      &lt;/div&gt;
+    #end
+  #end
+#end
+{{/html}}
+{{/velocity}}</content>
+</xwikidoc>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc reference="BookTools.Code.AnnotationSheet" locale="">
+  <web>BookTools.Code</web>
+  <name>AnnotationSheet</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>BookTools.Code.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1470931648000</creationDate>
+  <date>1472384228000</date>
+  <contentUpdateDate>1472384164000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>BookTools.Code.AnnotationSheet</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>c360b4d4-1f81-4395-834c-9021d6c4fe75</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>require(['jquery'], function ($) {
+  $("#document-title").hide();
+});
+</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <content>{{velocity}}
+### setting right mode for the sheet 
+### setting $curdoc variable either already set or set to $doc
+#if(!$mode) 
+  #if($xcontext.action=="inline" || $xcontext.action=="edit")
+    #set($mode = "edit")
+  #else
+    #set($mode = "view")
+  #end
+#end
+#if(!$curdoc)
+  #set($curdoc = $doc)
+#end
+#set($tdoc = $curdoc.translatedDocument)
+$xwiki.jsx.use("BookTools.Code.AnnotationSheet")
+$curdoc.use("BookTools.Code.AnnotationClass")
+#if( $mode == "edit")
+  #set ($docextras = [])
+#end
+#set($showcomments = false)
+### this macros displays a field and it's tooltip
+#macro(showfield $fieldname)
+  #if( $mode == "edit")
+    (% fieldname="$fieldname" %) (((
+      {{html wiki="true"}}
+        &lt;label for="BookTools.Code.AnnotationClass_0_$fieldname" data-toggle='tooltip' 
+          title='$services.localization.render("booktools.annotation.tooltip_$fieldname")'&gt;
+          $services.localization.render("booktools.annotation.label_$fieldname")
+          &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt; :
+        &lt;/label&gt;
+        $curdoc.display($fieldname, $mode)
+     {{/html}}
+    )))
+  #else
+    #set($viewField = ($curdoc.contentAuthor == $xcontext.user)
+      || ($curdoc.author == $xcontext.user)
+      || $doc.hasAdminRights
+      || $services.security.authorization.hasAccess("edit")
+    )
+    #set($value = $xobject.getProperty($fieldname).value)
+    #if ($stringtool.isNotBlank($value.trim()) &amp;&amp; $viewField )
+      (% fieldname="$fieldname" %) (((
+        {{html wiki=true}}&lt;span data-toggle='tooltip'
+          title='$services.localization.render("booktools.annotation.tooltip_$fieldname")'&gt;
+          $services.localization.render("booktools.annotation.label_$fieldname")
+          &lt;span class="tooltip-mark"&gt;$services.icon.render('question','Silk')&lt;/span&gt;
+          &lt;/span&gt; : $curdoc.display($fieldname, $mode)
+        {{/html}}
+      )))
+    #end
+  #end
+#end## end showfield macro
+#macro(showcontent )
+(% fieldname="content" %) (((
+#if( $mode == 'edit')
+{{html}}
+  ## Insert JS and CSS needed for the fullscreen edit feature
+  $xwiki.jsfx.use('uicomponents/widgets/fullScreen.js', {
+    'forceSkinAction': true,
+    'language': $xcontext.locale
+  })
+  $xwiki.ssfx.use('uicomponents/widgets/fullScreen.css', true)
+  #set ($formname = 'edit')
+  #set ($saveaction = 'save')
+  #set ($previewenabled = false)
+  #set ($xredirect = $escapetool.xml($request.xredirect))
+    &lt;div class="hidden"&gt;
+      ## CSRF prevention
+      &lt;input type="hidden" name="form_token" value="$!services.csrf.token" /&gt;
+      &lt;input type="hidden" name="template" value="$!escapetool.xml($request.template)" /&gt;
+      #if ($request.section &amp;&amp; $request.section != '')
+        #set ($xcontinue = $curdoc.getURL('edit', "editor=wysiwyg&amp;amp;section=$!escapetool.xml($request.section)"))
+      #else
+        #set ($xcontinue = $curdoc.getURL('edit', 'editor=wysiwyg'))
+      #end
+      &lt;input type="hidden" name="xcontinue" value="$xcontinue" /&gt;
+      &lt;input type="hidden" name="xredirect" value="$!xredirect" /&gt;
+      &lt;input type="hidden" name="language" value="$!tdoc.realLocale" /&gt;
+    &lt;/div&gt;
+    &lt;div id="xwikitext"&gt;
+      &lt;div id="xwikieditcontent"&gt;
+        ## The editor will replace the following text area with its own widget.
+        ## If JavaScript is disabled the user will still be able to edit the document using this HTML text area.
+        $xwiki.getTextArea($tdoc.content)
+        ## Edit the document content using a fully-fledged editor.
+        #wysiwyg_editProperty($tdoc 'content' true)
+      &lt;/div&gt;
+    &lt;/div&gt;
+  ##set ($editactions = 'bottom')
+  ##&lt;div class="bottombuttons"&gt;#template('editactions.vm')&lt;/div&gt;
+{{/html}}
+#else
+$tdoc.content
+#end
+)))
+#end
+#macro(showattachments)
+#if( $mode == "view")
+  {{html}}
+    #template("attachementsinline.vm")
+  {{/html}}
+#end
+#end
+##### end macros
+##
+#set($entryRef = $services.model.resolveDocument("WebHome", 'default', $curdoc.documentReference) )
+= $services.localization.render("booktools.annotation.title", $services.model.serialize($entryRef) ) =
+#showcontent()
+#showfield("allowGuest")
+#showfield("users")
+#showfield("groups")
+#showattachments()
+
+{{/velocity}}</content>
+</xwikidoc>
