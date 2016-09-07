@@ -11,10 +11,10 @@
   <parent>Main.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1473071395000</date>
-  <contentUpdateDate>1473071395000</contentUpdateDate>
+  <date>1473273602000</date>
+  <contentUpdateDate>1473273602000</contentUpdateDate>
   <version>1.1</version>
-  <title/>
+  <title>Book tools</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>

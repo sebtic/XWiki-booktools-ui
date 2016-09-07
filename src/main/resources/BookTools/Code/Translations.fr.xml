@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.2" reference="BookTools.Code.Translations" locale="fr">
+  <web>BookTools.Code</web>
+  <name>Translations</name>
+  <language>en</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1473273711000</creationDate>
+  <parent>BookTools.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1473273711000</date>
+  <contentUpdateDate>1473273711000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>
+booktools.toc.title=Table des matières
+booktools.toc.pleasewait=Veuillez patienter...
+booktools.navigation.previous=Précédant
+booktools.navigation.next=Suivant
+booktools.navigation.up=Remonter
+booktools.navigation.firstpage=Première page
+  </content>
+</xwikidoc>
