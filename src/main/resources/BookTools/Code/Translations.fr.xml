@@ -22,8 +22,12 @@
   <content>
 booktools.toc.title=Table des matières
 booktools.toc.pleasewait=Veuillez patienter...
-booktools.navigation.previous=Précédant
-booktools.navigation.next=Suivant
+booktools.toc.expandAll=Tout déplier
+booktools.toc.collapseAll=Tout plier
+booktools.navigation.previousSiblin=Section précédante
+booktools.navigation.previous=Page précédante
+booktools.navigation.next=Page suivante
+booktools.navigation.nextSibling=Section suivante
 booktools.navigation.up=Remonter
 booktools.navigation.firstpage=Première page
   </content>

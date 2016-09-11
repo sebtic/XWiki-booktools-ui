@@ -11,8 +11,8 @@
   <parent>BookTools.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1473273464000</date>
-  <contentUpdateDate>1473267199000</contentUpdateDate>
+  <date>1473595334000</date>
+  <contentUpdateDate>1473266733000</contentUpdateDate>
   <version>1.1</version>
   <title>BookTOCMacro</title>
   <comment/>
@@ -98,7 +98,7 @@
       </use>
     </class>
     <property>
-      <cache>forbid</cache>
+      <cache>long</cache>
     </property>
     <property>
       <code>require(['jquery', "$services.webjars.url('jquery-ui', 'jquery-ui.js')"], function ($) {
@@ -204,7 +204,7 @@
       </use>
     </class>
     <property>
-      <cache>forbid</cache>
+      <cache>long</cache>
     </property>
     <property>
       <code>require(['jquery', "$services.webjars.url('jquery-ui', 'jquery-ui.js')" ], function ($) {
@@ -222,9 +222,9 @@
   function disableTOC() {
     // disable click handlers
     $('.booktools-toc').find("li .booktoc-actions span").off();
-    var content = $('.booktools-toc .xwikipanelcontents');
-    content.prepend('$services.localization.render("booktools.toc.pleasewait")')
+    var content = $('.booktools-toc');
     content.children().hide()
+    content.prepend('$services.localization.render("booktools.toc.pleasewait")')
   }
   
   $('.booktools-toc').find("li .booktoc-actions").each(function (index,actions) {
@@ -272,10 +272,68 @@
       });
       $(actions).append(widget);
     }
-    
-    
-    
   }); // each
+  
+  $('.booktools-toc').find("li").each(function (index,widget) {
+    var list = $(widget).children("ul, ol");
+    if (list.length &gt; 0) {
+      var toggle = $('&lt;i class="collapse-button fa fa-minus-square-o" aria-hidden="true"&gt;&lt;/i&gt;');
+      $(widget).children().first().append(toggle);
+      toggle.click( function (e) {
+        if ($(this).hasClass('fa-minus-square-o')) {
+          $(this).parent().siblings("ul,ol").hide();
+        } else {
+          $(this).parent().siblings("ul,ol").show();
+        }
+        $(this).toggleClass( "fa-minus-square-o fa-plus-square-o" );
+      });
+    }
+  }); //each
+  
+  $('.booktools-toc .expand-all-button').click( function (e) {
+    var collapsed = $(this).parent().find('.fa-plus-square-o');
+    collapsed.toggleClass( "fa-minus-square-o fa-plus-square-o" );
+    collapsed.parent().siblings("ul,ol").show();
+  });
+  
+  $('.booktools-toc .collapse-all-button').click( function (e) {
+    var expanded = $(this).parent().find('.fa-minus-square-o');
+    expanded.toggleClass( "fa-minus-square-o fa-plus-square-o" );
+    expanded.parent().siblings("ul,ol").hide();
+  });
+  
+  $('div.booktools-toc').each( function (index, toc) {
+    var mode = $(toc).attr("data-mode");
+    if (mode == 'collapsed') {
+      var expanded = $(toc).find('.fa-minus-square-o');
+      expanded.toggleClass( "fa-minus-square-o fa-plus-square-o" );
+      expanded.parent().siblings("ul,ol").hide();
+    } else {
+      if (mode == 'expanded') {
+        var collapsed = $(toc).find('.fa-plus-square-o');
+        collapsed.toggleClass( "fa-minus-square-o fa-plus-square-o" );
+        collapsed.parent().siblings("ul,ol").show();
+      } else {
+        if (mode == 'smart') {
+         $(toc).find('li').each( function (index, li) {
+            if ($(li).hasClass('active')) {
+              var toggle = $(li).children('div').children('.fa-plus-square-o');
+              var sublist = $(li).children('ol,ul');
+              console.log("toggle = ", toggle)
+              console.log("sublist = ", sublist)
+              toggle.toggleClass( "fa-minus-square-o fa-plus-square-o" );
+              sublist.show();
+            } else {
+              var toggle = $(li).children('div').children('.fa-minus-square-o');
+              var sublist = $(li).children('ol,ul');
+              toggle.toggleClass( "fa-minus-square-o fa-plus-square-o" );
+              sublist.hide();
+            }
+          });
+        }
+      }
+    }
+  });
     
 }); // requirejs
 </code>
@@ -384,7 +442,7 @@
       </use>
     </class>
     <property>
-      <cache>forbid</cache>
+      <cache>long</cache>
     </property>
     <property>
       <code>.booktools-toc {
@@ -395,6 +453,28 @@
 
 .booktoc-actions span {
   margin-left: 5px;
+}
+
+.booktools-toc ul, .booktools-toc ol{
+  white-space:nowrap;
+}
+
+.booktools-toc &gt; ul, .booktools-toc .xwikipanelcontents &gt; ol{
+  overflow-x: auto;
+}
+
+.booktools-toc li.active &gt; div a {
+  font-weight: bold;
+}
+
+.booktools-toc .collapse-all-button {
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.booktools-toc .expand-all-button {
+  margin-bottom: 10px;
+  margin-right: 0px;
 }</code>
     </property>
     <property>
@@ -529,10 +609,10 @@
     </class>
     <property>
       <code>{{velocity}}
-{{html wiki=true}}
+{{html}}
 $xwiki.jsx.use("BookTools.Code.BookTOCMacro")
 $xwiki.ssx.use("BookTools.Code.BookTOCMacro")
-#set($numbered = $xcontext.macro.params.reference == "true")
+#set($numbered = $xcontext.macro.params.numbered == "true")
 #set($reference = $xcontext.macro.params.reference)
 #if( $reference )
   #set($reference = $services.model.resolveDocument($reference))
@@ -542,24 +622,39 @@ $xwiki.ssx.use("BookTools.Code.BookTOCMacro")
 #end
 
 #set($book = $xcontext.macro.params.book)
-#set($root = $services.booktools.documentWalker.getNode($reference))
+#set($reference = $services.booktools.documentWalker.getNode($reference))
 #if($book == "true")
-  #set($root = $root.rootNode)
+  #set($root = $reference.rootNode)
+#else
+  #set($root = $reference)
 #end
 
-#set($editMode = $root.canEdit())
+#set($nodesToRoot = $reference.nodesToRoot)
+
+#set($editMode = $root.canEdit() &amp;&amp; $xcontext.macro.params.editable == "true")
 
 #macro(displayChildren $node)
 #if(!$node.children.empty)
+  #set($childepth = $depth+1)
   #if($numbered)&lt;ol&gt;#else&lt;ul&gt;#end
     #foreach($child in $node.children)
         #set($movebefore = $editMode &amp;&amp; !$foreach.first &amp;&amp; $child.canEdit())
         #set($moveafter = $editMode &amp;&amp; !$foreach.last &amp;&amp; $child.canEdit())
         #set($movedown = $editMode &amp;&amp; !$foreach.first &amp;&amp; $child.canDelete())
         #set($moveup = $editMode &amp;&amp; !$root.equals($child.parent) &amp;&amp; $child.canDelete())
-      &lt;li data-module="$escapetool.html($child.documentReference)" data-movebefore="$movebefore" data-moveafter="$moveafter" data-movedown="$movedown" data-moveup="$moveup"&gt;
+        
+      &lt;li 
+        #if($nodesToRoot.contains($child))
+          class="active"
+        #end
+        data-module="$escapetool.html($child.documentReference)" 
+        data-movebefore="$movebefore" 
+        data-moveafter="$moveafter" 
+        data-movedown="$movedown" 
+        data-moveup="$moveup"&gt;
         &lt;div&gt;
-          [[$child.translatedTitle&gt;&gt;$child.documentReference]]&lt;span class="booktoc-actions"/&gt;
+          &lt;a href="$xwiki.getURL($child.documentReference)"&gt;$escapetool.html($child.translatedTitle)&lt;/a&gt;
+          &lt;span class="booktoc-actions"/&gt;
         &lt;/div&gt;
         #displayChildren($child)
       &lt;/li&gt;
@@ -568,11 +663,15 @@ $xwiki.ssx.use("BookTools.Code.BookTOCMacro")
 #end
 #end
 
-&lt;div class="panel booktools-toc"&gt;
-&lt;h1 class="xwikipaneltitle booktools-toc-title"&gt;$services.localization.render('booktools.toc.title')&lt;/h1&gt;
-&lt;div class="xwikipanelcontents"&gt;
-#displayChildren($root)
-&lt;/div&gt;
+&lt;div 
+  class="booktools-toc"
+  data-mode="$xcontext.macro.params.mode"
+&gt;
+  &lt;div class="do-all-buttons"&gt;
+    &lt;span class="expand-all-button"&gt;$services.localization.render("booktools.toc.expandAll")&lt;/span&gt;
+    &lt;span class="collapse-all-button"&gt;$services.localization.render("booktools.toc.collapseAll")&lt;/span&gt;
+  &lt;/div&gt;
+  #displayChildren($root)
 &lt;/div&gt;
 
 
@@ -803,6 +902,146 @@ $xwiki.ssx.use("BookTools.Code.BookTOCMacro")
     </property>
     <property>
       <name>numbered</name>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.BookTOCMacro</name>
+    <number>4</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>264cd110-613a-4504-960b-4389c2e756c4</guid>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <editor/>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <property>
+      <defaultValue>collapsed</defaultValue>
+    </property>
+    <property>
+      <description>The display mode :
+
+
+* (% style="line-height: 1.4em;" %)collapsed (default) : all nodes are collapsed
+* (% style="line-height: 1.4em;" %)expanded : all nodes are expanded
+* (% style="line-height: 1.4em;" %)smart : all nodes are collapsed except for active nodes (the root line)
+</description>
+    </property>
+    <property>
+      <mandatory>0</mandatory>
+    </property>
+    <property>
+      <name>mode</name>
+    </property>
+  </object>
+  <object>
+    <name>BookTools.Code.BookTOCMacro</name>
+    <number>7</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>55f6e4af-6fc5-4aa1-b15a-9f2a36191cd1</guid>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <editor/>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <property>
+      <defaultValue>false</defaultValue>
+    </property>
+    <property>
+      <description>If true, the reordering actions are added if the document can be edited by the user. Default is false.</description>
+    </property>
+    <property>
+      <mandatory>0</mandatory>
+    </property>
+    <property>
+      <name>editable</name>
     </property>
   </object>
 </xwikidoc>

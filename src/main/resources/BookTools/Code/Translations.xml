@@ -340,8 +340,12 @@ booktools.entrytype.shouldfieldsbevisible=Visible field by default
 
 booktools.toc.title=Table of contents
 booktools.toc.pleasewait=Please wait...
-booktools.navigation.previous=Previous
-booktools.navigation.next=Next
+booktools.toc.expandAll=Expand all
+booktools.toc.collapseAll=Collapse all
+booktools.navigation.previousSibling=Previous section
+booktools.navigation.previous=Previous page
+booktools.navigation.next=Next page
+booktools.navigation.nextSibling=Next section
 booktools.navigation.up=Up
 booktools.navigation.firstpage=First page
 

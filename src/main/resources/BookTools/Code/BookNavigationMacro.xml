@@ -11,8 +11,8 @@
   <parent>BookTools.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1473273533000</date>
-  <contentUpdateDate>1473267194000</contentUpdateDate>
+  <date>1473594991000</date>
+  <contentUpdateDate>1473266730000</contentUpdateDate>
   <version>1.1</version>
   <title>BookNavigationMacro</title>
   <comment/>
@@ -114,17 +114,34 @@
       </use>
     </class>
     <property>
-      <cache>forbid</cache>
+      <cache>long</cache>
     </property>
     <property>
       <code>.book-navigation {
   text-align:center;
   width:100%;
+  font-size: 200%;
 }
-.book-navigation img {
+.book-navigation a {
   margin-left: 5px;
-  margin-right: 5px;
-}</code>
+  margin-right:5px;
+}
+.book-navigation a:hover {
+  text-decoration: none;
+}
+
+.book-navigation .previous {
+  -ms-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.book-navigation .up {
+  -ms-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+</code>
     </property>
     <property>
       <contentType>CSS</contentType>
@@ -260,37 +277,51 @@
       <code>{{velocity}}
 $xwiki.jsx.use("BookTools.Code.BookNavigationMacro")
 $xwiki.ssx.use("BookTools.Code.BookNavigationMacro")
-{{html wiki=true}}
+{{html clean=false}}
 #set($node = $services.booktools.documentWalker.getNode($doc.documentReference))
 #set($previous = $node.previous)
+#set($previousSibling = $node.previousSibling)
 #set($next = $node.next)
+#set($nextSibling = $node.nextSibling)
+
 #set($up = $node.parent)
 #set($firstpage = $node.rootNode)
 #set($hidefirstpagelink = $xcontext.macro.params.hidefirstpagelink)
 #if($firstpage.index)
-&lt;div class="panel book-navigation"&gt;
+&lt;div class="book-navigation"&gt;
+    #if($previousSibling)
+       &lt;a href="$xwiki.getURL($previousSibling.documentReference)" title="$services.localization.render('booktools.navigation.previousSibling')"&gt;
+       &lt;span class="book-navigation-button previousSibling fa fa-backward" aria-hidden="true"&gt;&lt;/span&gt;
+       &lt;/a&gt;
+    #end
     #if($previous)
-      &lt;span class="book-navigation-local-prev"&gt;
-      &lt;a href="$!escapetool.xml($viewChildUrl)" 
-        [[$services.icon.render("arrow_left")&gt;&gt;$previous.documentReference||title="$services.localization.render('booktools.navigation.previous')"]]
-      &lt;/span&gt;
+       &lt;a href="$xwiki.getURL($previous.documentReference)" title="$services.localization.render('booktools.navigation.previous')"&gt;
+       &lt;span class="book-navigation-button previous fa fa-play" aria-hidden="true"&gt;&lt;/span&gt;
+       &lt;/a&gt;
     #end
+    
     #if($up &amp;&amp; !$node.index)
-      &lt;span class="book-navigation-local-up"&gt;
-               [[$services.icon.render("arrow_up")&gt;&gt;$up.documentReference||title="$services.localization.render('booktools.navigation.up')"]]
-      &lt;/span&gt;
+       &lt;a href="$xwiki.getURL($up.documentReference)" title="$services.localization.render('booktools.navigation.up')"&gt;
+       &lt;span class="book-navigation-button up fa fa-play" aria-hidden="true"&gt;&lt;/span&gt;
+       &lt;/a&gt;
     #end
-    #if($hidefirstpagelink != "true" &amp;&amp; !$node.index )
-      &lt;span class="book-navigation-firstpage"&gt;
-        #if($firstpage)
-          [[$services.icon.render("house")&gt;&gt;$firstpage.documentReference||title="$services.localization.render('booktools.navigation.firstpage')"]]
-        #end
-      &lt;/span&gt; 
+    
+    #if($hidefirstpagelink != "true" &amp;&amp; !$node.index &amp;&amp; $firstpage)
+       &lt;a href="$xwiki.getURL($firstpage.documentReference))" title="$services.localization.render('booktools.navigation.firstpage')"&gt;
+       &lt;span class="book-navigation-button firstpage fa fa-home" aria-hidden="true"&gt;&lt;/span&gt;
+       &lt;/a&gt;
     #end
+    
     #if($next)
-      &lt;span class="book-navigation-local-next"&gt;
-       [[$services.icon.render("arrow_right")&gt;&gt;$next.documentReference||title="$services.localization.render('booktools.navigation.next')"]]
-      &lt;/span&gt;
+       &lt;a href="$xwiki.getURL($next.documentReference)" title="$services.localization.render('booktools.navigation.next')"&gt;
+       &lt;span class="book-navigation-button next fa fa-play" aria-hidden="true"&gt;&lt;/span&gt;
+       &lt;/a&gt;
+    #end
+    
+    #if($nextSibling)
+       &lt;a href="$xwiki.getURL($nextSibling.documentReference)" title="$services.localization.render('booktools.navigation.nextSibling')"&gt;
+       &lt;span class="book-navigation-button nextSibling fa fa-forward" aria-hidden="true"&gt;&lt;/span&gt;
+       &lt;/a&gt;
     #end
 &lt;/div&gt;
 #end
