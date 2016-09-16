@@ -459,7 +459,7 @@
   white-space:nowrap;
 }
 
-.booktools-toc &gt; ul, .booktools-toc .xwikipanelcontents &gt; ol{
+.booktools-toc &gt; ul, .booktools-toc &gt; ol{
   overflow-x: auto;
 }
 
