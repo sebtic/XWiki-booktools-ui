@@ -291,13 +291,13 @@
   }); //each
   
   $('.booktools-toc .expand-all-button').click( function (e) {
-    var collapsed = $(this).parent().find('.fa-plus-square-o');
+    var collapsed = $(this).parent().parent().find('.fa-plus-square-o');
     collapsed.toggleClass( "fa-minus-square-o fa-plus-square-o" );
     collapsed.parent().siblings("ul,ol").show();
   });
   
   $('.booktools-toc .collapse-all-button').click( function (e) {
-    var expanded = $(this).parent().find('.fa-minus-square-o');
+    var expanded = $(this).parent().parent().find('.fa-minus-square-o');
     expanded.toggleClass( "fa-minus-square-o fa-plus-square-o" );
     expanded.parent().siblings("ul,ol").hide();
   });
