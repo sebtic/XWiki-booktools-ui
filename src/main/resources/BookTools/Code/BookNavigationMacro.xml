@@ -307,7 +307,7 @@ $xwiki.ssx.use("BookTools.Code.BookNavigationMacro")
     #end
     
     #if($hidefirstpagelink != "true" &amp;&amp; !$node.index &amp;&amp; $firstpage)
-       &lt;a href="$xwiki.getURL($firstpage.documentReference))" title="$services.localization.render('booktools.navigation.firstpage')"&gt;
+       &lt;a href="$xwiki.getURL($firstpage.documentReference)" title="$services.localization.render('booktools.navigation.firstpage')"&gt;
        &lt;span class="book-navigation-button firstpage fa fa-home" aria-hidden="true"&gt;&lt;/span&gt;
        &lt;/a&gt;
     #end
