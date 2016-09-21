@@ -31,20 +31,20 @@
     <defaultWeb/>
     <nameField/>
     <validationScript/>
-    <isBookToolsPage>
+    <isBibliographyPage>
       <customDisplay/>
       <defaultValue/>
       <disabled>0</disabled>
       <displayFormType>select</displayFormType>
       <displayType/>
-      <name>isBookToolsPage</name>
+      <name>isBibliographyPage</name>
       <number>1</number>
-      <prettyName>isBookToolsPage</prettyName>
+      <prettyName>isBibliographyPage</prettyName>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
       <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-    </isBookToolsPage>
+    </isBibliographyPage>
     <keys>
       <customDisplay/>
       <disabled>0</disabled>
