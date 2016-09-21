@@ -11,8 +11,8 @@
   <parent>BookTools.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1473075870000</date>
-  <contentUpdateDate>1473075855000</contentUpdateDate>
+  <date>1474466234000</date>
+  <contentUpdateDate>1474466234000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <comment/>
@@ -203,10 +203,9 @@ $curdoc.use("BookTools.Code.EntryClass")
 )))
 #set($annotationChildrenDoc = [])
 #set($showAnnotationSection = $services.security.authorization.hasAccess('edit', $curdoc.documentReference))
-#foreach( $child in $xwiki.getDocument($curdoc.parent).children)
-  #if( $services.security.authorization.hasAccess('view', $child) )
-    #set($childRef = $services.model.resolveDocument($child, 'default'))
-    #set($childDoc = $xwiki.getDocument($childRef))
+#foreach( $child in $services.booktools.documentWalker.getNode($curdoc.documentReference).children)
+  #if( $child.canView() )
+    #set($childDoc = $child.document)
     #if ($childDoc.getObject("BookTools.Code.AnnotationClass"))
       #set($discard = $annotationChildrenDoc.add($childDoc))
       #set($showAnnotationSection = true)
@@ -291,10 +290,9 @@ $curdoc.use("BookTools.Code.EntryClass")
 #end
 #set($attachmentChildrenDoc = [])
 #set($showAttachmentSection = $services.security.authorization.hasAccess('edit', $curdoc.documentReference))
-#foreach( $child in $xwiki.getDocument($curdoc.parent).children)
-  #if( $services.security.authorization.hasAccess('view', $child) )
-    #set($childRef = $services.model.resolveDocument($child, 'default'))
-    #set($childDoc = $xwiki.getDocument($childRef))
+#foreach( $child in $services.booktools.documentWalker.getNode($curdoc.documentReference).children)
+  #if( $child.canView() )
+    #set($childDoc = $child.document)
     #if ($childDoc.getObject("BookTools.Code.AttachmentClass"))
       #set($discard = $attachmentChildrenDoc.add($childDoc))
       #set($showAttachmentSection = true)
@@ -362,7 +360,7 @@ $curdoc.use("BookTools.Code.EntryClass")
             &lt;/span&gt; : 
             #foreach( $group in $groups ) 
           ** #if( $stringtool.isNotBlank($group) ) $stringtool.trim($group) #end 
-          
+
             #end
           #end
           #if( $users.size() &gt; 0 )
