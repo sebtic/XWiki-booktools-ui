@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xwikidoc reference="BookTools.Code.EntryClass" locale="">
+<xwikidoc version="1.2" reference="BookTools.Code.EntryClass" locale="">
   <web>BookTools.Code</web>
   <name>EntryClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>BookTools.Code.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1467208865000</creationDate>
-  <date>1472320677000</date>
-  <contentUpdateDate>1471863202000</contentUpdateDate>
+  <parent>BookTools.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1475482419000</date>
+  <contentUpdateDate>1473597036000</contentUpdateDate>
   <version>1.1</version>
   <title/>
-  <defaultTemplate/>
-  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
+  <content/>
   <class>
     <name>BookTools.Code.EntryClass</name>
     <customClass/>
@@ -290,7 +288,7 @@
       <disabled>0</disabled>
       <name>collectionTitle</name>
       <number>33</number>
-      <picker>0</picker>
+      <picker>1</picker>
       <prettyName>collectionTitle</prettyName>
       <size>50</size>
       <unmodifiable>0</unmodifiable>
@@ -333,7 +331,7 @@
       <disabled>0</disabled>
       <name>containerTitle</name>
       <number>34</number>
-      <picker>0</picker>
+      <picker>1</picker>
       <prettyName>containerTitle</prettyName>
       <size>50</size>
       <unmodifiable>0</unmodifiable>
@@ -681,7 +679,7 @@
       <disabled>0</disabled>
       <name>publisher</name>
       <number>52</number>
-      <picker>0</picker>
+      <picker>1</picker>
       <prettyName>publisher</prettyName>
       <size>30</size>
       <unmodifiable>0</unmodifiable>
@@ -946,6 +944,10 @@
     </volume>
   </class>
   <object>
+    <name>BookTools.Code.EntryClass</name>
+    <number>0</number>
+    <className>XWiki.ClassSheetBinding</className>
+    <guid>41b76951-a839-403f-b163-4878c157aa4a</guid>
     <class>
       <name>XWiki.ClassSheetBinding</name>
       <customClass/>
@@ -969,15 +971,15 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
-    <name>BookTools.Code.EntryClass</name>
-    <number>0</number>
-    <className>XWiki.ClassSheetBinding</className>
-    <guid>41b76951-a839-403f-b163-4878c157aa4a</guid>
     <property>
       <sheet>EntrySheet</sheet>
     </property>
   </object>
   <object>
+    <name>BookTools.Code.EntryClass</name>
+    <number>0</number>
+    <className>XWiki.DocumentSheetBinding</className>
+    <guid>d0bc0ed6-1435-47d2-ad15-bac0c213ad17</guid>
     <class>
       <name>XWiki.DocumentSheetBinding</name>
       <customClass/>
@@ -1001,13 +1003,8 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
-    <name>BookTools.Code.EntryClass</name>
-    <number>0</number>
-    <className>XWiki.DocumentSheetBinding</className>
-    <guid>d0bc0ed6-1435-47d2-ad15-bac0c213ad17</guid>
     <property>
       <sheet>XWiki.ClassSheet</sheet>
     </property>
   </object>
-  <content/>
 </xwikidoc>
