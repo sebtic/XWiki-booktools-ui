@@ -188,7 +188,7 @@ $curdoc.use("BookTools.Code.EntryClass")
         #showbigfield($fieldname)
       #else
         #if($datefields.contains($fieldname))
-          #showbigfield($fieldname, ["booktools.error.invalid-date"])
+          #showfield($fieldname, ["booktools.error.invalid-date"])
         #else
           #if($fieldname == "id")
             #showfield($fieldname, ["booktools.error.empty-id","booktools.error.id-already-exists","booktools.error.invalid-id-format"])
