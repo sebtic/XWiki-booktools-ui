@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.projectsforge.xwiki</groupId>
 	<artifactId>booktools-ui</artifactId>
-	<version>1.0.11</version>
+	<version>1.0.12</version>
 	<name>XWiki BookTools UI</name>
 	<description>XWiki BookTools UI</description>
 	<packaging>xar</packaging>
@@ -39,9 +39,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<commons.version>8.1</commons.version>
-		<rendering.version>8.1</rendering.version>
-		<platform.version>8.1</platform.version>
+		<commons.version>8.2.1</commons.version>
+		<rendering.version>8.2.1</rendering.version>
+		<platform.version>8.2.1</platform.version>
 	</properties>
 
 	<build>

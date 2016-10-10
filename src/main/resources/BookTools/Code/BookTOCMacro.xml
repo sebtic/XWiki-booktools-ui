@@ -653,7 +653,11 @@ $xwiki.ssx.use("BookTools.Code.BookTOCMacro")
         data-movedown="$movedown" 
         data-moveup="$moveup"&gt;
         &lt;div&gt;
-          &lt;a href="$xwiki.getURL($child.documentReference)"&gt;$escapetool.html($child.translatedTitle)&lt;/a&gt;
+          #set($itemTitle = $child.translatedTitle)
+          #if($stringtool.isBlank($itemTitle))
+            #set($itemTitle = $child.documentReference.name)
+          #end
+          &lt;a href="$xwiki.getURL($child.documentReference)"&gt;$escapetool.html($itemTitle)&lt;/a&gt;
           &lt;span class="booktoc-actions"/&gt;
         &lt;/div&gt;
         #displayChildren($child)
