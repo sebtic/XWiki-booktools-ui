@@ -150,7 +150,7 @@ $xwiki.ssx.use("BookTools.Code.Entries.WebHome")
 #set($options = { 
    "className":"BookTools.Code.EntryClass",
    "translationPrefix" : "booktools.entries.livetable.",
-   "tagCloud" : false,
+   "tagCloud" : true,
    "rowCount": 20
 })
 #if(!$isGuest)
